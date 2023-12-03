@@ -30,7 +30,7 @@ application {
 }
 
 javafx {
-  version = '17.0.6'
+  version = '21'
   modules = ['javafx.controls', 'javafx.fxml']
 }
 
@@ -39,10 +39,11 @@ dependencies {
   implementation 'com.squareup.retrofit2:converter-gson:2.9.0' // Если вы хотите использовать Gson для сериализации/десериализации JSON
   testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+  implementation 'com.google.code.gson:gson:2.8.9'
 }
 
 test {
-useJUnitPlatform()}
+  useJUnitPlatform()}
 
 jlink {
   imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
