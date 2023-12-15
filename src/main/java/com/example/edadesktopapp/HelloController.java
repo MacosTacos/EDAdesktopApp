@@ -22,6 +22,8 @@ public class HelloController {
     @FXML
     private Button signInButton;
 
+    private static String ROLE;
+
     @FXML
     void signIn(ActionEvent event) { ApiService apiService = ApiClient.getClient().create(ApiService.class);
         UserEntityRequest userEntityRequest = new UserEntityRequest(loginField.getText(), passwordField.getText());
@@ -34,7 +36,17 @@ public class HelloController {
                     TokenResponse tokenResponse = response.body();
                     ApiClient.setToken(tokenResponse.getToken());
                     System.out.println("Token: " + tokenResponse.getToken());
-                    javafx.application.Platform.runLater(() -> changeScene());
+                    String role = tokenResponse.getRole();
+                    ROLE = role;
+                    switch (role){
+                        case "STAFF" -> {
+                            javafx.application.Platform.runLater(() -> openStaffWindow());
+                        }
+                        case "ADMIN" -> {
+                            javafx.application.Platform.runLater(() -> openAdminPanel());
+                        }
+                    }
+
                 } else {
                     System.out.println("Error: " + response.errorBody());
                 }
@@ -46,7 +58,25 @@ public class HelloController {
             }
         });
     }
-    void changeScene(){
+
+    void openAdminPanel(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("adminPanel-view.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+
+            Stage currentStage = (Stage) signInButton.getScene().getWindow();
+            currentStage.setTitle("Список заказов");
+
+            currentStage.setScene(scene);
+
+            currentStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    void openStaffWindow(){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("orders-view.fxml"));
             Parent root = loader.load();
@@ -54,6 +84,7 @@ public class HelloController {
             Scene scene = new Scene(root);
 
             Stage currentStage = (Stage) signInButton.getScene().getWindow();
+            currentStage.setTitle("Список заказов");
 
             currentStage.setScene(scene);
 
@@ -63,4 +94,7 @@ public class HelloController {
         }
     }
 
+    public static String getROLE() {
+        return ROLE;
+    }
 }

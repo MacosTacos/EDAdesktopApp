@@ -1,10 +1,7 @@
 package com.example.edadesktopapp;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.POST;
+import retrofit2.http.*;
 
 import java.util.List;
 
@@ -14,6 +11,21 @@ public interface ApiService {
 
     @GET("staff/getOrders")
     Call<List<GetOrdersResponse>> getOrders(@Header("Authorization") String token);
+
+    @PUT("staff/changeStatus")
+    Call<String> changeStatus(@Header("Authorization") String token, @Body ChangeOrderStatusRequest changeOrderStatusRequest);
+
+    @GET("staff/getFood")
+    Call<List<GetFoodResponse>> getFood(@Header("Authorization") String token);
+
+    @POST("admin/addFood")
+    Call<String> addFood(@Header("Authorization") String token, @Body AddFoodRequest addFoodRequest);
+
+    @GET("orders/getCategories")
+    Call<List<GetCategoriesResponse>> getCategories(@Header("Authorization") String token);
+
+    @POST("orders/addOrder")
+    Call<String> addOrder(@Header("Authorization") String token, @Body AddOrderRequest addOrderRequest);
 
     //@Header("Authorization") String token,
 }

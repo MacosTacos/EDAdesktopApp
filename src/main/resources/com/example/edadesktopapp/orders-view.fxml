@@ -4,10 +4,10 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.edadesktopapp.OrdersController">
    <children>
-      <ListView fx:id="ordersListView" layoutX="27.0" layoutY="26.0" prefHeight="548.0" prefWidth="837.0" />
-      <Button fx:id="orderIsReadyButton" layoutX="881.0" layoutY="254.0" mnemonicParsing="false" onAction="#changeOrderStatus" prefHeight="92.0" prefWidth="105.0" text="Заказ готов" />
+      <ListView fx:id="ordersListView" layoutX="27.0" layoutY="91.0" prefHeight="483.0" prefWidth="837.0" />
+      <Button fx:id="orderIsReadyButton" layoutX="881.0" layoutY="287.0" mnemonicParsing="false" onAction="#changeOrderStatus" prefHeight="92.0" prefWidth="105.0" text="Заказ готов" />
+      <Button fx:id="goBackButton" layoutX="27.0" layoutY="33.0" mnemonicParsing="false" onAction="#goBack" text="Назад" />
    </children>
 </AnchorPane>
