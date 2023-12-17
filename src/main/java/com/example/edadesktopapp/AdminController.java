@@ -14,6 +14,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.w3c.dom.Text;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -23,6 +24,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable {
+    @FXML
+    private TextField categoryNameRusField;
+
+    @FXML
+    private TextField categoryNameEngField;
+
+    @FXML
+    private Button addCategoryButton;
 
     @FXML
     private Button addFoodButton;
@@ -38,6 +47,9 @@ public class AdminController implements Initializable {
 
     @FXML
     private TextField foodCategoryField;
+
+    @FXML
+    private ListView<GetCategoriesResponse> categoriesListView;
 
     @FXML
     private ListView<GetFoodResponse> foodListView;
@@ -163,6 +175,33 @@ public class AdminController implements Initializable {
         }
     }
 
+    @FXML
+    void addCategory(ActionEvent event){
+        String categoryRusName = categoryNameRusField.getText();
+        String categoryEngName = categoryNameEngField.getText();
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        AddCategoryRequest addCategoryRequest = new AddCategoryRequest(categoryEngName, categoryRusName);
+        Call<String> addCategoryCall = apiService.addCategory(ApiClient.getToken(), addCategoryRequest);
+        addCategoryCall.enqueue(new retrofit2.Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    System.out.println(response.body());
+                }
+                javafx.application.Platform.runLater(() -> showCategories());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                System.out.println("gg");
+                javafx.application.Platform.runLater(() -> showCategories());
+            }
+        });
+
+    }
+
+
+
 
 
     private void showFood(){
@@ -199,11 +238,18 @@ public class AdminController implements Initializable {
             @Override
             public void onResponse(Call<List<GetCategoriesResponse>> call, Response<List<GetCategoriesResponse>> response) {
                 if (response.isSuccessful()){
-                    List<GetCategoriesResponse> categoriesList = response.body();
+                    /*List<GetCategoriesResponse> categoriesList = response.body();
                     javafx.application.Platform.runLater(() -> {
                         categoryBox.getItems().setAll(categoriesList);
-                    });
+                        categoriesListView.getItems().setAll(categoriesList);
+
+                    });*/
                 }
+                List<GetCategoriesResponse> categoriesList = response.body();
+                javafx.application.Platform.runLater(() -> {
+                    categoryBox.getItems().setAll(categoriesList);
+                    categoriesListView.getItems().setAll(categoriesList);
+                });
             }
 
             @Override

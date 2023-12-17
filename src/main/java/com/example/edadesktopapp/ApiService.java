@@ -27,5 +27,9 @@ public interface ApiService {
     @POST("orders/addOrder")
     Call<String> addOrder(@Header("Authorization") String token, @Body AddOrderRequest addOrderRequest);
 
+    @POST("orders/addCategory")
+    Call<String> addCategory(@Header("Authorization") String token, @Body AddCategoryRequest addCategoryRequest);
+
+
     //@Header("Authorization") String token,
 }
